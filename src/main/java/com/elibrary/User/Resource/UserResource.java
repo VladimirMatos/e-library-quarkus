@@ -43,7 +43,7 @@ public class UserResource {
         if (user == null) {
             return Response.status(Status.NO_CONTENT).build();
         }
-        System.out.println(user);
+        
         return Response.status(Status.OK).entity(user).build();
     }
 

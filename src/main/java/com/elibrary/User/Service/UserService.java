@@ -8,6 +8,7 @@ import com.elibrary.utils.MapperSource;
 import com.elibrary.utils.PaginationResponse;
 import com.elibrary.utils.PaginationResponseDto;
 
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
@@ -53,14 +54,15 @@ public class UserService implements IUserService{
             return mapperSource.mapObject(user, UserResponseDto.class);
 
         }catch (Exception ex){
-            throw new BadRequestException(ex);
+            Log.error(ex);
+            throw new BadRequestException();
         }
     }
 
     @Override
     public UserResponseDto updateOneUser(ObjectId id, UpdateUserDto user) {
         try{
-            System.out.println(user);
+           
             UserModel userFind = userRepository.findById(id);
 
             if(userFind == null){
@@ -72,7 +74,6 @@ public class UserService implements IUserService{
             userFind.email = user.email;
             userFind.updateDate();
 
-            System.out.println(userFind);
 
             userRepository.update(userFind);
 
